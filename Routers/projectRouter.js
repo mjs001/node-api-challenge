@@ -19,7 +19,7 @@ router.post("/:id/new-project", (req, res) => {
   const newProject = req.body;
   const id = req.params.id;
   Project.insert(newProject, id).then((project) => {
-    if (project.id != id) {
+    if (id === undefined || id === null) {
       res.status(404).json({
         errorMessage: "the specified id does not match any known projects",
       });
@@ -65,7 +65,7 @@ router.get("/:id/actions", (req, res) => {
   const id = req.params.id;
   Project.getProjectActions(id)
     .then((project) => {
-      if (project.id != id) {
+      if (id === null || id === undefined) {
         res.status(404).json({
           errorMessage: "the specified id does not match any known projects",
         });
@@ -73,12 +73,10 @@ router.get("/:id/actions", (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res
-        .status(500)
-        .json({
-          errorMessage:
-            "there was a error retrieving the actions for the project",
-        });
+      res.status(500).json({
+        errorMessage:
+          "there was a error retrieving the actions for the project",
+      });
     });
 });
 

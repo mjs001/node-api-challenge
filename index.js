@@ -27,6 +27,12 @@ server.get("/", (req, res) => {
   res.json({ query: req.query, params: req.params, headers: req.headers });
 });
 
+server.use(function (err, req, res, next) {
+  console.error(err.message);
+  if (!err.statusCode) err.statusCode = 500;
+  res.status(err.statusCode).send(err.message);
+});
+
 server.listen(4002, () => {
   console.log("\n server is running on port 4002 \n");
 });

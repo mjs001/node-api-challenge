@@ -19,7 +19,7 @@ router.post("/:id/new-action", (req, res) => {
   const newAction = req.body;
   const id = req.params.id;
   Action.insert(newAction, id).then((action) => {
-    if (action.id != id) {
+    if (id === undefined || id === null) {
       res.status(404).json({
         errorMessage: "the specified id does not match any known actions",
       });
@@ -50,7 +50,7 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
   Action.remove(id).then((action) => {
-    if (action.id != id) {
+    if (id === null || id === undefined) {
       res.status(404).json({
         errorMessage: "the specified id does not match any known actions",
       });
